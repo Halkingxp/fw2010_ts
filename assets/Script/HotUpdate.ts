@@ -26,7 +26,7 @@ export default class HotUpdate extends cc.Component {
     @property({
         type:cc.Asset,
     })
-    manifestUrl:cc.Asset;
+    manifestUrl:cc.Asset = null;
 
     private _updating = false;
     private _canRetry = false;
