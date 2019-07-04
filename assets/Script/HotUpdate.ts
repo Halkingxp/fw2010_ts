@@ -255,7 +255,7 @@ export default class HotUpdate extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     start () {
-        this.checkUpdate();
+        // this.checkUpdate();
     }
 
     checkCb(event) {

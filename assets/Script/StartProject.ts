@@ -10,6 +10,7 @@
 
 const {ccclass, property} = cc._decorator;
 import GlobeData from "./Common/GlobalData"
+import {MsgEvents,MsgDispatcher} from "./Framework/MsgDispatcher"
 
 @ccclass
 export default class StartProject extends cc.Component {
@@ -25,6 +26,10 @@ export default class StartProject extends cc.Component {
     onLoad () {
         //常驻进程
         cc.game.addPersistRootNode(this.node);
+        if(cc.sys.isNative){
+            //加载热更新界面
+
+        }
     }
 
     start () {
@@ -33,6 +38,21 @@ export default class StartProject extends cc.Component {
         cc.vv.globe.test = "aaaa";
         console.log(cc.vv.globe);
         console.log(GlobeData.AppName);
+
+        MsgDispatcher.ins.addEvent(MsgEvents.TestEvent,(param)=>{
+            console.log("111");
+            console.log(param);
+        });
+        MsgDispatcher.ins.addEvent(MsgEvents.TestEvent,(param)=>{
+            console.log("222");
+            console.log(param);
+        });
+
+
+        let f = (param)=>{
+            console.log("333");
+            console.log(param);
+        }
 
     }
 
