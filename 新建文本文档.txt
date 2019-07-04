@@ -1,0 +1,1 @@
+node version_generator.js -v 1.14 -u http://192.168.0.103/tutorial-hot-update/remote-assets/ -s build/jsb-link/ -d gen/
