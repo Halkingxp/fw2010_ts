@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "21eeda32-6a08-4d46-bfe8-76bd07eabb63",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "hyzj_btn_danxuan_bg": {
+      "ver": "1.0.4",
+      "uuid": "02900d4e-574e-4d25-bb3c-92619521344c",
+      "rawTextureUuid": "21eeda32-6a08-4d46-bfe8-76bd07eabb63",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 44,
+      "height": 42,
+      "rawWidth": 44,
+      "rawHeight": 42,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

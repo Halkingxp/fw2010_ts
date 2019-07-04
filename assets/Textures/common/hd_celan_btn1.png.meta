@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "d7a50099-c0d1-42f1-a804-8e27be6c70d0",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "hd_celan_btn1": {
+      "ver": "1.0.4",
+      "uuid": "64f4756c-f8f3-4439-bb60-79db6c7ac907",
+      "rawTextureUuid": "d7a50099-c0d1-42f1-a804-8e27be6c70d0",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 189,
+      "height": 87,
+      "rawWidth": 191,
+      "rawHeight": 87,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

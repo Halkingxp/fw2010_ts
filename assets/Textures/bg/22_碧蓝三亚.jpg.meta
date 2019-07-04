@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "a222cb0a-879d-4567-9e1d-60bd683549fe",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "22_碧蓝三亚": {
+      "ver": "1.0.4",
+      "uuid": "01c1600e-3ef1-4bcf-9a70-693d2f7a06a4",
+      "rawTextureUuid": "a222cb0a-879d-4567-9e1d-60bd683549fe",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 1024,
+      "height": 1024,
+      "rawWidth": 1024,
+      "rawHeight": 1024,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
