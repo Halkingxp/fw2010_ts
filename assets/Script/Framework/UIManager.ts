@@ -118,11 +118,11 @@ export default class UIManager extends cc.Component{
      * @param panel 传入panel的类型
      * @param param
      */
-    async close<T extends BaseUIPanelType>(panel: T, param: any) {
+    async closePanel<T extends BaseUIPanelType>(panel: T, param: any = {}) {
         let value = this.getPanel(panel)
         // 如果状态已经为close,则跳过本次删除
         if (value.state === "close") {
-            cc.warn(`@mpanel: panel-state=close, 跳过本次关闭`)
+            cc.warn(`@panel: panel-state=close, 跳过本次关闭`)
             return
         }
         // 更改数据部分

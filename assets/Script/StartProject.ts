@@ -13,6 +13,8 @@ import GlobeData from "./Common/GlobalData"
 import {MsgEvents,MsgDispatcher} from "./Framework/MsgDispatcher"
 import ManagerCenter from "./Framework/ManagerCenter"
 
+import Debug from "./Debug"
+
 @ccclass
 export default class StartProject extends cc.Component {
 
@@ -28,6 +30,7 @@ export default class StartProject extends cc.Component {
         //常驻进程
         cc.game.addPersistRootNode(this.node);
         this.node.addComponent(ManagerCenter);
+        this.node.addComponent(Debug);
         
         if(cc.sys.isNative){
             //加载热更新界面
