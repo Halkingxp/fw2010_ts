@@ -91,7 +91,12 @@ export default class UIManager extends cc.Component{
             return
         }
         va.node = cc.instantiate(va.prefab);
-        switch(va.layer){
+        let com = va.node.getComponent(panel);
+        if(!com){
+            com = va.node.addComponent(panel);
+        }
+        console.log(com.mLayer);
+        switch(com.mLayer){
             case "NodeFixed":
                 va.node.setParent(this.mFixedNode);
             case "NodePopup":
@@ -104,10 +109,7 @@ export default class UIManager extends cc.Component{
         }
         va.node.zIndex = va.z_index;
         va.node.active = true;
-        let com = va.node.getComponent(panel);
-        if(!com){
-            com = va.node.addComponent(panel);
-        }
+
         com.onData(param);
 
 
@@ -130,7 +132,8 @@ export default class UIManager extends cc.Component{
         value.paramsClose = param
         // 更改实例部分
         if (value.node) {
-            value.node.getComponent(panel) && await value.node.getComponent(panel).onClose(value.paramsClose)
+            let com = value.node.getComponent(panel);
+            com && await value.node.getComponent(panel).onClose(value.paramsClose)
             value.node.destroy()
             value.node = null
         }
@@ -145,7 +148,7 @@ export default class UIManager extends cc.Component{
         let value = this.mPanelMap.get(key)
         if (!value) {
             value = {};
-            value.layer = panel.CONFIG.layer;
+            // value.layer = panel.CONFIG.layer;
             this.mPanelMap.set(key, value)
         }
         if (!value.isCheck) {

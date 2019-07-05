@@ -7,8 +7,6 @@ import {PanelPathConfig,BaseUIPanel} from "../Framework/BaseUIPanel";
 @PanelPathConfig("common/CommonPanel")
 export default class CommonPanel extends BaseUIPanel{
     
-
-    
     onLoad(){
         console.log("CommonPanel onload");
     }
