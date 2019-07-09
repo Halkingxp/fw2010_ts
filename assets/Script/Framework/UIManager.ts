@@ -43,6 +43,9 @@ export default class UIManager extends cc.Component{
     @property(cc.Node)
     mTopNode:cc.Node = null;
 
+    @property(cc.SpriteFrame)
+    mSingleColor:cc.SpriteFrame = null;
+
     onSceneChanged(event){
         cc.log("onSceneChanged");
         this.mCanvas = cc.find("Canvas").getComponent(cc.Canvas);
@@ -65,6 +68,10 @@ export default class UIManager extends cc.Component{
     }
 
     async openPanel<T extends BaseUIPanelType>(panel:T,param:any = {}){
+        if(!this.mSingleColor){
+             this.mSingleColor = await Tools.load_res("textures/singleTrans",cc.SpriteFrame);
+        }
+
         let va = this.getPanel(panel);
         if(va && va.state === "open") {
             switch(panel.CONFIG.type){
@@ -112,7 +119,7 @@ export default class UIManager extends cc.Component{
 
         com.onData(param);
 
-
+        await this.inScale(va.node);
     }
 
     /**
@@ -169,4 +176,20 @@ export default class UIManager extends cc.Component{
         }
         return true
     }
+    
+    async inScale(node: cc.Node) {
+        return new Promise(res => {
+            node.scale = 0;
+            // node.active = true
+            node.runAction(cc.sequence(cc.scaleTo(0.2, 1).easing(cc.easeBackOut()),cc.callFunc(()=>{
+                let size =node.getContentSize();
+                node.addComponent(cc.Sprite).spriteFrame = this.mSingleColor;
+                node.setContentSize(size);
+                // node.color = cc.color(40,40,40,50);
+                res();
+            })) );
+
+        })
+    }
+
 }

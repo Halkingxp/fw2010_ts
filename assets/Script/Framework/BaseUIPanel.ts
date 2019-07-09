@@ -55,6 +55,7 @@ export class BaseUIPanel extends cc.Component{
 
     onData(data):void{
         this.mData = data;
+        cc.log("on data:",this.name);
     };
 
     freezePanel(){
