@@ -14,8 +14,12 @@ export default class AudioManager extends cc.Component{
     sfxVolume:number = 0.5;
     bgmAudioID = 0;
 
+    mClickAudioClip:cc.AudioClip = null;
+    mSoundMap:Map<string,cc.AudioClip> = new Map();
+
     onLoad(){
         AudioManager.ins = this;
+        cc.director.on(cc.Director.EVENT_AFTER_SCENE_LAUNCH,this.clearSoundCatch,this);
     }
 
     start(){
@@ -50,7 +54,12 @@ export default class AudioManager extends cc.Component{
     }
     
     async playSFX(url:string){
-        let audioClip = await Tools.load_res(url,cc.AudioClip);
+        let audioClip = this.mSoundMap.get(url);
+        if(!audioClip){
+            audioClip = await Tools.load_res(url,cc.AudioClip);
+            this.mSoundMap.set(url,audioClip);
+        }
+        
         if(this.sfxVolume > 0){
             var audioId = cc.audioEngine.play(audioClip,false,this.sfxVolume);    
         }
@@ -88,6 +97,10 @@ export default class AudioManager extends cc.Component{
         }
     }
     
+    playClickEffect(){
+        this.playSFX("sound/common/audio_button_click.mp3");
+    }
+
     pauseAll(){
         cc.audioEngine.pauseAll();
     }
@@ -95,4 +108,12 @@ export default class AudioManager extends cc.Component{
     resumeAll(){
         cc.audioEngine.resumeAll();
     }
+
+    clearSoundCatch(){
+        this.mSoundMap.forEach((val,key)=>{
+            cc.loader.release(val);
+        });
+        this.mSoundMap = new Map();
+    }
+
 }

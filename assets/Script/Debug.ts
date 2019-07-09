@@ -2,6 +2,7 @@ const { ccclass, property, menu } = cc._decorator;
 
 import UIManager from "./Framework/UImanager";
 import CommonPanel from "./Lobby/CommonPanel";
+import AudioManager from "./Framework/AudioManager"
 
 export default class Debug extends cc.Component{
     onLoad(){
@@ -16,6 +17,7 @@ export default class Debug extends cc.Component{
         switch(event.keyCode) {
             case cc.macro.KEY.a:
                 UIManager.ins.openPanel(CommonPanel);
+                AudioManager.ins.playClickEffect();
                 break;
             case cc.macro.KEY.b:
                 UIManager.ins.closePanel(CommonPanel);

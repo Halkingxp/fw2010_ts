@@ -312,4 +312,32 @@ export default class Tools{
     }
  
 
+    static addClickEvent(node:cc.Node,target:cc.Node,component:string,handler:string,customeData:string){
+        let eventHandler = new cc.Component.EventHandler();
+        eventHandler.target = target;//执行脚本的节点
+        eventHandler.component = component;
+        eventHandler.handler = handler;
+        if(customeData){
+            eventHandler.customEventData = customeData;
+        }
+        let events = node.getComponent(cc.Button).clickEvents;
+        events.push(eventHandler);
+    }
+
+    static addSlideEvent(node:cc.Node,target:cc.Node,component:string,handler:string,customeData:string){
+        let eventHandler = new cc.Component.EventHandler();
+        eventHandler.target = target;
+        eventHandler.component = component;
+        eventHandler.handler = handler;
+        if(customeData){
+            eventHandler.customEventData = customeData;
+        }
+        let events = node.getComponent(cc.Slider).slideEvents;
+        events.push(eventHandler);
+    }
+
+    static addClickMusic(node){
+        
+    }
+
 }
