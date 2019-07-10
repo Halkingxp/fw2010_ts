@@ -9,6 +9,7 @@ export default class CommonPanel extends BaseUIPanel{
     
     onLoad(){
         console.log("CommonPanel onload");
+         
         
     }
     
