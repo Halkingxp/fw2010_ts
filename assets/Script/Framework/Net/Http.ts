@@ -4,18 +4,18 @@ interface ICallBack{
 }
 
 export class Http{
-    baseUrl:string = "";
+    static baseUrl:string = "http://jsonplaceholder.typicode.com/";
 
     setBaseUrl(url:string){
-        this.baseUrl = url;
+        Http.baseUrl = url;
     }
 
-    get(path:string,data:any,handler:ICallBack,extraUrl?:string){
+    static get(path:string,data:any,handler:ICallBack,extraUrl?:string){
         var xhr = cc.loader.getXMLHttpRequest();
         xhr.timeout = 5000;
 
         if(!extraUrl){
-            extraUrl = this.baseUrl;
+            extraUrl = Http.baseUrl;
         }
         let sendPath = path;
         let sendText = "?";
@@ -48,7 +48,7 @@ export class Http{
 
         let retryFunc = function() {
             data.hasRetried = true;
-            this.get(path, data, handler, extraUrl);
+            Http.get(path, data, handler, extraUrl);
         };
 
         xhr.onreadystatechange = function () {
@@ -103,11 +103,11 @@ export class Http{
         return xhr;
     }
 
-    post(path:string,data:any,handler:ICallBack,extraUrl?:string){
+    static post(path:string,data:any,handler:ICallBack,extraUrl?:string){
         let xhr = cc.loader.getXMLHttpRequest();
         xhr.timeout = 5000
         if(!extraUrl){
-            extraUrl = this.baseUrl;
+            extraUrl = Http.baseUrl;
         }
         //解析请求路由以及格式化请求参数
         let sendPath = path;
@@ -136,7 +136,7 @@ export class Http{
 
         let retryFunc = function() {
             data.hasRetried = true;
-            this.post(path, data, handler, extraUrl);
+            Http.post(path, data, handler, extraUrl);
         };
 
         xhr.onreadystatechange = function () {
@@ -191,4 +191,86 @@ export class Http{
         return xhr;
     }
 
+    static getAsync(path:string,data:any,extraUrl?:string):Promise<any>{
+        return new Promise((res, rej) => {
+
+            try {
+                var xhr = cc.loader.getXMLHttpRequest();
+                xhr.timeout = 5000;
+
+                if (!extraUrl) {
+                    extraUrl = Http.baseUrl;
+                }
+                let sendPath = path;
+                let sendText = "?";
+                for (let k in data) {
+                    if (sendText != "?") {
+                        sendText += "&"
+                    }
+                    sendText += (k + "=" + data[k])
+                }
+                //组装完整的URL
+                let requestURL = extraUrl + sendPath + encodeURI(sendText);
+                // xhr.responseType = "json"
+                xhr.open("GET", requestURL, true)
+                xhr.setRequestHeader("Content-Type", "application/json")
+                xhr.onerror = () => { throw new Error("xhr-on-error") }
+                xhr.ontimeout = () => { throw new Error("xhr-on-timeout") }
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState != 4) {
+                        return;
+                    }
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        return res(JSON.parse(xhr.response))
+                    } else {
+                        // rej();
+                        rej(new Error("xhr-status-not-200-400"));
+                    }
+                }
+                xhr.send()
+            } catch (error) {
+                return rej(error);
+            }
+
+
+        })
+    }
+
+    static postAsync(path:string,data:any,extraUrl?:string):Promise<any>{
+        return new Promise((res, rej) => {
+
+            try {
+                var xhr = cc.loader.getXMLHttpRequest();
+                xhr.timeout = 5000;
+
+                if (!extraUrl) {
+                    extraUrl = Http.baseUrl;
+                }
+                let sendPath = path;
+                //组装完整的URL
+                let requestURL = extraUrl + sendPath;
+                // xhr.responseType = "json"
+                xhr.open("POST", requestURL, true)
+                xhr.setRequestHeader("Content-Type", "application/json")
+                xhr.onerror = () => { throw new Error("xhr-on-error") }
+                xhr.ontimeout = () => { throw new Error("xhr-on-timeout") }
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState != 4) {
+                        return;
+                    }
+                    if (xhr.status >= 200 && xhr.status < 400) {
+                        return res(JSON.parse(xhr.response))
+                    } else {
+                        // rej();
+                        rej(new Error("xhr-status-not-200-400"));
+                    }
+                }
+                xhr.send(JSON.stringify(data))
+            } catch (error) {
+                return rej(error);
+            }
+
+
+        })
+    }  
 }

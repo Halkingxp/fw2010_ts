@@ -3,6 +3,7 @@ const { ccclass, property, menu } = cc._decorator;
 import UIManager from "./Framework/UImanager";
 import CommonPanel from "./Lobby/CommonPanel";
 import AudioManager from "./Framework/AudioManager"
+import { Http } from "./Framework/Net/Http";
 
 export default class Debug extends cc.Component{
     onLoad(){
@@ -21,6 +22,21 @@ export default class Debug extends cc.Component{
                 break;
             case cc.macro.KEY.b:
                 UIManager.ins.closePanel(CommonPanel);
+                break;
+            case cc.macro.KEY.c:
+                Http.get("todos/1",{a:"a"},(va)=>{
+                    cc.log(typeof va)
+                    cc.log(va.title);
+                })
+                break;
+
+            case cc.macro.KEY.d:
+                Http.getAsync("todos/1", { a: "a" }).then((va)=>{
+                    cc.log(typeof va)
+                    cc.log(va.title);
+                }).catch(()=>{
+                    console.log("err");
+                })
                 break;
         }
     }
