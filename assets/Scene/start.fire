@@ -1446,7 +1446,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Button",
+    "_name": "ButtonTest",
     "_objFlags": 0,
     "_parent": {
       "__id__": 25
@@ -1551,8 +1551,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
+      "x": 201,
+      "y": 179,
       "z": 0
     },
     "_scale": {
@@ -1612,7 +1612,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": 6,
       "z": 0
     },
     "_scale": {
@@ -1644,8 +1644,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_string": "啊啊啊啊啊",
-    "_N$string": "啊啊啊啊啊",
+    "_string": "test",
+    "_N$string": "test",
     "_fontSize": 20,
     "_lineHeight": 40,
     "_enableWrapText": false,
@@ -1699,10 +1699,10 @@
     "alignMode": 0,
     "_target": null,
     "_alignFlags": 45,
-    "_left": -52,
-    "_right": -52,
-    "_top": -22.5,
-    "_bottom": -22.5,
+    "_left": 149,
+    "_right": -253,
+    "_top": -201.5,
+    "_bottom": 156.5,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
