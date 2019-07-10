@@ -4,6 +4,7 @@ import UIManager from "./Framework/UImanager";
 import CommonPanel from "./Lobby/CommonPanel";
 import AudioManager from "./Framework/AudioManager"
 import { Http } from "./Framework/Net/Http";
+import Test from "./Framework/ProtoBuffer/Test";
 
 export default class Debug extends cc.Component{
     onLoad(){
@@ -37,6 +38,10 @@ export default class Debug extends cc.Component{
                 }).catch(()=>{
                     console.log("err");
                 })
+                break;
+            
+            case cc.macro.KEY.e:
+                Test.do();
                 break;
         }
     }
