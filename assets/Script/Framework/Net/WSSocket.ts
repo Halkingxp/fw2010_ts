@@ -1,8 +1,13 @@
+import { ProtoManager } from "../ProtoBuffer/ProtoManager";
+import { ProtoConst } from "../ProtoBuffer/ProtoConst";
+
+type ProtoCallback = (pro:any)=>void;
 
 export default class WSSocket{
     mIsConnect = false;
     mWs:WebSocket = null;
 
+    mHandler:Map<keyof ProtoConst,ProtoCallback[]> = new Map();
 
     
     constructor(public mHostName:string){
@@ -26,8 +31,24 @@ export default class WSSocket{
 
     }
 
+    addHandler(id:keyof ProtoConst,callback:ProtoCallback){
+        if(this.mHandler.has(id)){
+            this.mHandler.get(id).push(callback);
+        }
+        else{
+            this.mHandler.set(id,[callback]);
+        }
+    }
+
+    removeHandler(id:keyof ProtoConst,callback:ProtoCallback){
+        if(id in this.mHandler){
+            this.mHandler[id] = this.mHandler[id].filter(item=>{item != callback});
+        }
+    }
+
     onMessage(event){
-        
+        let unpackdata = ProtoManager.unpackage(event.data);
+
     }
 
     onError(event){

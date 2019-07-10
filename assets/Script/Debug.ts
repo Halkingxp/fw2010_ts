@@ -5,6 +5,7 @@ import CommonPanel from "./Lobby/CommonPanel";
 import AudioManager from "./Framework/AudioManager"
 import { Http } from "./Framework/Net/Http";
 import Test from "./Framework/ProtoBuffer/Test";
+import { ProtoConst } from "./Framework/ProtoBuffer/ProtoConst";
 
 export default class Debug extends cc.Component{
     onLoad(){
@@ -42,6 +43,7 @@ export default class Debug extends cc.Component{
             
             case cc.macro.KEY.e:
                 Test.do();
+                console.log(ProtoConst.enterGameWorld.toString());
                 break;
         }
     }

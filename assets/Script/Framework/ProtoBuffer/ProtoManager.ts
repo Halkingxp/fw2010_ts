@@ -1,15 +1,22 @@
 import { ProtoConst } from "./ProtoConst";
 
-
+export interface IMessage{
+    pkId?:number;
+    pkLength?:number;
+    body?:Buffer;
+}
 
 export class ProtoManager{
     static mHeadLength = 8;
-    static mBufCatch:Buffer = Buffer.alloc(4096);
+    static mBufCatch:Buffer = null;
     static mIndex = 0;
     constructor(){
 
     }
 
+    static init(){
+        ProtoManager.mBufCatch = Buffer.alloc(4096);
+    }
     static package(pkId:ProtoConst,body:Uint8Array):Buffer{
         let headBuf = Buffer.alloc(ProtoManager.mHeadLength);
         // let jsonStr = JSON.stringify(json);
@@ -21,7 +28,22 @@ export class ProtoManager{
 
     }
 
-    static unpackage(buf:Buffer){
+    static unpackage(buf:Buffer):IMessage{
+        if(buf.length < 1){
+            return
+        }
+
+        let data:IMessage = {};
+        data.pkId = buf.readInt32BE(0);
+        data.pkLength = buf.readInt32BE(4);
+        if(data.pkLength + 8 != buf.length){
+            throw new Error("receive error length!!");
+        }
+        data.body = buf.slice(8,data.pkLength);
+        return data;
+    }
+
+    static unpackage2(buf:Buffer){
         if(buf.length < 1){
             return
         }
@@ -45,6 +67,5 @@ export class ProtoManager{
 
     }
 
-    
 
 }
