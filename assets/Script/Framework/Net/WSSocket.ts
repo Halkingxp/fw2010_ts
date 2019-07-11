@@ -16,6 +16,8 @@ export default class WSSocket{
     mTimerSendHeartbeat:any= null;
     mTimerCheckNet:any= null;
 
+    testCall:ProtoCallback = null;
+
     constructor(public mHostName:string){
         this.mLastSendTime = Date.now();
     }
@@ -59,21 +61,23 @@ export default class WSSocket{
     }
 
     onMessage(event){
-        console.log("onMessage:",event);
+        console.log("onMessage:",event.data);
         console.log(typeof event.data)
-        
-        let unpackdata = ProtoManager.unpackage(Buffer.from(event.data));
-        // let c = ProtoManager.getPkModel(unpackdata.pkId);
-        // if(! c.verify(unpackdata.body)){
-        //     throw new Error("verify stream data error,pkid:" + unpackdata.pkId);
-        // }
-        // let decoded = c.decode(unpackdata.body);
-
-        if(unpackdata.pkId > 0 && this.mHandler.has(unpackdata.pkId)){
-            for(let cb of this.mHandler[unpackdata.pkId]){
-                cb(unpackdata);
-            }
+        if(this.testCall){
+            this.testCall(event.data);
         }
+        // let unpackdata = ProtoManager.unpackage(Buffer.from(event.data));
+        // // let c = ProtoManager.getPkModel(unpackdata.pkId);
+        // // if(! c.verify(unpackdata.body)){
+        // //     throw new Error("verify stream data error,pkid:" + unpackdata.pkId);
+        // // }
+        // // let decoded = c.decode(unpackdata.body);
+
+        // if(unpackdata.pkId > 0 && this.mHandler.has(unpackdata.pkId)){
+        //     for(let cb of this.mHandler[unpackdata.pkId]){
+        //         cb(unpackdata);
+        //     }
+        // }
 
     }
 
@@ -137,7 +141,8 @@ export default class WSSocket{
     ping(){
         if (this.mWs) {
             this.mLastSendTime = Date.now();
-            this.send(ProtoConst.heartBeat,null);
+            // this.send(ProtoConst.heartBeat,null);
+            this.mWs.send("ping" + this.mLastSendTime)
         }
     }
 }
