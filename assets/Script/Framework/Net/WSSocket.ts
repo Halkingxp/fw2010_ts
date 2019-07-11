@@ -1,5 +1,6 @@
 import { ProtoManager } from "../ProtoBuffer/ProtoManager";
 import { ProtoConst } from "../ProtoBuffer/ProtoConst";
+import { Buffer } from "buffer";
 
 type ProtoCallback = (pro:any)=>void;
 
@@ -58,7 +59,10 @@ export default class WSSocket{
     }
 
     onMessage(event){
-        let unpackdata = ProtoManager.unpackage(event.data);
+        console.log("onMessage:",event);
+        console.log(typeof event.data)
+        
+        let unpackdata = ProtoManager.unpackage(Buffer.from(event.data));
         // let c = ProtoManager.getPkModel(unpackdata.pkId);
         // if(! c.verify(unpackdata.body)){
         //     throw new Error("verify stream data error,pkid:" + unpackdata.pkId);
@@ -88,7 +92,7 @@ export default class WSSocket{
     onClose(event){
         console.log("loss connect to the server:",this.mHostName);
         this.mIsConnect = false;
-        
+
     }
 
     send(id:ProtoConst,message:any){

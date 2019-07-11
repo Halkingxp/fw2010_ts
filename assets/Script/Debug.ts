@@ -6,6 +6,7 @@ import AudioManager from "./Framework/AudioManager"
 import { Http } from "./Framework/Net/Http";
 import Test from "./Framework/ProtoBuffer/Test";
 import { ProtoConst } from "./Framework/ProtoBuffer/ProtoConst";
+import WSSocket from "./Framework/Net/WSSocket";
 
 export default class Debug extends cc.Component{
     onLoad(){
@@ -44,6 +45,8 @@ export default class Debug extends cc.Component{
             case cc.macro.KEY.e:
                 Test.do();
                 console.log(ProtoConst.enterGameWorld.toString());
+                let ws = new WSSocket("ws://121.40.165.18:8800");
+                ws.startConnect();
                 break;
         }
     }
