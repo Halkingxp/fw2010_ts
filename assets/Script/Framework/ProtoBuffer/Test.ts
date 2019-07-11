@@ -5,6 +5,7 @@ export default class Test{
     constructor(){
 
     }
+    
     static do(){
         let message = proto.awesomepackage.AwesomeMessage.create({awesomeField:"hello1"})
         message.awesomeField = "hello222";

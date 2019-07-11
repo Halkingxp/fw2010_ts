@@ -1,4 +1,5 @@
 import { ProtoConst } from "./ProtoConst";
+import * as proto from "./proto"
 
 export interface IMessage{
     pkId?:number;
@@ -10,13 +11,29 @@ export class ProtoManager{
     static mHeadLength = 8;
     static mBufCatch:Buffer = null;
     static mIndex = 0;
+    static mPkIdModelMap:Map<ProtoConst,any> = null;
     constructor(){
-
-    }
-
-    static init(){
+        ProtoManager.mPkIdModelMap = new Map();
         ProtoManager.mBufCatch = Buffer.alloc(4096);
+        ProtoManager.addModels();
     }
+
+    // static init(){
+    //     ProtoManager.mBufCatch = Buffer.alloc(4096);
+    // }
+
+    static addModels(){
+        ProtoManager.addPkModel(ProtoConst.enterGameWorld,proto.awesomepackage.AwesomeMessage);
+    }
+
+    static getPkModel(pkId:ProtoConst):any{
+        return ProtoManager.mPkIdModelMap.get(pkId);
+    }
+
+    static addPkModel(pkId:ProtoConst,model:any){
+        ProtoManager.mPkIdModelMap.set(pkId,model);
+    }
+
     static package(pkId:ProtoConst,body:Uint8Array):Buffer{
         let headBuf = Buffer.alloc(ProtoManager.mHeadLength);
         // let jsonStr = JSON.stringify(json);
@@ -66,6 +83,8 @@ export class ProtoManager{
         ProtoManager.mBufCatch.copy(ProtoManager.mBufCatch,0,pkLength,ProtoManager.mIndex);
 
     }
+
+
 
 
 }

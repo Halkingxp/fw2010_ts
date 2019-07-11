@@ -6,12 +6,17 @@ type ProtoCallback = (pro:any)=>void;
 export default class WSSocket{
     mIsConnect = false;
     mWs:WebSocket = null;
+    mSendHeartBeat = true;
+    mHandler:Map<ProtoConst,ProtoCallback[]> = new Map();
 
-    mHandler:Map<keyof ProtoConst,ProtoCallback[]> = new Map();
+    mLastSendTime:number = null;
+    mLastReceiveTime:number = null;
 
-    
+    mTimerSendHeartbeat:any= null;
+    mTimerCheckNet:any= null;
+
     constructor(public mHostName:string){
-
+        this.mLastSendTime = Date.now();
     }
     
     setHostName(hostname:string){
@@ -31,7 +36,7 @@ export default class WSSocket{
 
     }
 
-    addHandler(id:keyof ProtoConst,callback:ProtoCallback){
+    addHandler(id:ProtoConst,callback:ProtoCallback){
         if(this.mHandler.has(id)){
             this.mHandler.get(id).push(callback);
         }
@@ -40,14 +45,31 @@ export default class WSSocket{
         }
     }
 
-    removeHandler(id:keyof ProtoConst,callback:ProtoCallback){
+    removeHandler(id:ProtoConst,callback:ProtoCallback){
         if(id in this.mHandler){
             this.mHandler[id] = this.mHandler[id].filter(item=>{item != callback});
         }
     }
 
+    clearHandler(id:ProtoConst){
+        if(this.mHandler.has(id)){
+            this.mHandler.delete(id);
+        }
+    }
+
     onMessage(event){
         let unpackdata = ProtoManager.unpackage(event.data);
+        // let c = ProtoManager.getPkModel(unpackdata.pkId);
+        // if(! c.verify(unpackdata.body)){
+        //     throw new Error("verify stream data error,pkid:" + unpackdata.pkId);
+        // }
+        // let decoded = c.decode(unpackdata.body);
+
+        if(unpackdata.pkId > 0 && this.mHandler.has(unpackdata.pkId)){
+            for(let cb of this.mHandler[unpackdata.pkId]){
+                cb(unpackdata);
+            }
+        }
 
     }
 
@@ -58,15 +80,60 @@ export default class WSSocket{
     onOpen(event){
         console.log("connected to the server:",this.mHostName);
         this.mIsConnect = true;
+        if(this.mSendHeartBeat){
+            this.startHearbeat();
+        }
     }
 
     onClose(event){
         console.log("loss connect to the server:",this.mHostName);
         this.mIsConnect = false;
+        
     }
 
-    send(){
+    send(id:ProtoConst,message:any){
+        let uint8barray = message.encode
         let buf = Buffer.alloc(10);
         this.mWs.send(buf);
+    }
+
+    startHearbeat(){
+        this.clearHandler(ProtoConst.heartBeat);
+        this.addHandler(ProtoConst.heartBeat,this.pong);
+
+        if(this.mTimerSendHeartbeat){
+            clearInterval(this.mTimerSendHeartbeat);
+            this.mTimerSendHeartbeat = null;
+        }
+
+        this.mTimerSendHeartbeat = setInterval(()=>{
+            if(this.mIsConnect){
+                this.ping();
+            }
+        },5000);
+        
+        this.mTimerCheckNet = setInterval(()=>{
+            if(this.mIsConnect){
+                if(this.mLastReceiveTime - this.mLastSendTime > 10000){
+                    console.log("网络超时。。。");
+                    this.mWs.close();
+                    this.mIsConnect = false;
+                }
+            }
+        });
+
+    }
+
+    pong(){
+        this.mLastReceiveTime = Date.now();
+        console.log("delay ms:",this.mLastReceiveTime - this.mLastSendTime);
+
+    }
+
+    ping(){
+        if (this.mWs) {
+            this.mLastSendTime = Date.now();
+            this.send(ProtoConst.heartBeat,null);
+        }
     }
 }
