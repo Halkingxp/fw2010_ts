@@ -67,6 +67,10 @@ export default class PoolsManager extends cc.Component{
         return this.mPools.get(path).getObject();
     }
 
+    pushObjectToPool(path:string,obj:cc.Node):void{
+        this.mPools.get(path).pushObject(obj);
+    }
+
     clearPool(path:string){
         this.mPools.get(path).clear();
     }
