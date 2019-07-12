@@ -3,6 +3,7 @@ const {ccclass, property} = cc._decorator;
 
 import UIManager from "./UImanager"
 import AudioManager from "./AudioManager"
+import PoolsManager from "./PoolsManager";
 
 type Com  = typeof cc.Component;
 
@@ -15,6 +16,8 @@ export default class ManagerCenter extends cc.Component{
         this.addManager(UIManager);
         // this.node.addComponent(AudioManager);
         this.addManager(AudioManager);
+        this.addManager(PoolsManager);
+
         console.log("ManagerCenter");
         console.log(typeof cc.Component);
         console.log(cc.Component);
