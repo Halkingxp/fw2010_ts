@@ -2,7 +2,7 @@ import Tools from "../Common/Tools";
 
 const {ccclass, property} = cc._decorator;
 
-class MyPool{
+export class MyPool{
     mPrefab:cc.Prefab = null;
     mPool:cc.NodePool = null;
     constructor(public path:string,public maxNum:number){
