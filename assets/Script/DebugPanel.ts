@@ -39,7 +39,7 @@ export default class DebugPanel extends BaseUIPanel {
     }
 
     onmessage(s:string){
-        this.mRichText.string = s;
+        this.mRichText.string =  this.mRichText.string + s;
     }
 
     closebtn(){

@@ -27,9 +27,10 @@ export default class WSSocket{
     }
 
     startConnect(){
-        if(this.mIsConnect){
+        if(this.mIsConnect || this.mWs){
             this.mWs.close();
         }
+
         this.mWs = new WebSocket(this.mHostName);
         this.mWs.binaryType = "arraybuffer";
         this.mWs.onmessage = this.onMessage.bind(this);
@@ -127,8 +128,10 @@ export default class WSSocket{
                     this.mWs.close();
                     this.mIsConnect = false;
                 }
+            }else{
+                this.startConnect();
             }
-        });
+        },5000);
 
     }
 
