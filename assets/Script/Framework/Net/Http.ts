@@ -224,7 +224,7 @@ export class Http{
                         return res(JSON.parse(xhr.response))
                     } else {
                         // rej();
-                        rej(new Error("xhr-status-not-200-400"));
+                        return (new Error("xhr-status-not-200-400"));
                     }
                 }
                 xhr.send()
