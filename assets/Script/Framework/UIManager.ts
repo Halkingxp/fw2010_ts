@@ -75,12 +75,15 @@ export default class UIManager extends cc.Component{
         let va = this.getPanel(panel);
         if(va && va.state === "open") {
             switch(panel.CONFIG.type){
+                case "multi":
+                    break;
                 case "cover":
                     if(va.node){
                         va.node.destroy();
                     }
                 case "single":
                 default:
+                    cc.log("already opened the panel:",panel.CONFIG.path);
                     return;
             }
         }
@@ -119,7 +122,17 @@ export default class UIManager extends cc.Component{
 
         com.onData(param);
 
-        await this.inScale(va.node);
+        switch(panel.CONFIG.type){
+            case "multi":
+                await this.outUpMove(va.node);
+                break;
+            case "cover":
+                break;
+            default:
+                await this.inScale(va.node);
+        }
+        
+
     }
 
     /**
@@ -192,4 +205,7 @@ export default class UIManager extends cc.Component{
         })
     }
 
+    async outUpMove(node:cc.Node){
+
+    }
 }

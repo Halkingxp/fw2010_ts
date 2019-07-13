@@ -10,7 +10,7 @@ export const CanvasNodeName = {
 }
 
 /** 打开方式类型;single-不允许再次打开;cover-再次打开时覆盖; */
-type TypeOpen = "single" | "cover";
+type TypeOpen = "single"| "multi"| "cover";
 
 export type LayerType= keyof typeof  CanvasNodeName;
 export enum ShowType{
@@ -45,6 +45,9 @@ export class BaseUIPanel extends cc.Component{
 
     mLayer:LayerType = "NodeNormal";
     mShowType:ShowType = ShowType.Normal;
+    //y延时删除的节点,0为不删除 单位秒
+    mDelayDestroy:number = 0;
+
 
     /** panel的配置参数 */
     static CONFIG: PanelConfig;
@@ -52,6 +55,16 @@ export class BaseUIPanel extends cc.Component{
     async onOpen(param?: object) { };
     /** panel-close-process */
     async onClose(param?: object) { };
+
+    onLoad(){
+        console.log("BaseUIPanel onload");
+        cc.log(this.mDelayDestroy);
+        if(this.mDelayDestroy > 0){
+            this.scheduleOnce(()=>{
+                this.node.destroy();
+            },this.mDelayDestroy);
+        }
+    }
 
     onData(data):void{
         this.mData = data;

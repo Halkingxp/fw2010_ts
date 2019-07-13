@@ -18,9 +18,6 @@ export default class ManagerCenter extends cc.Component{
         this.addManager(AudioManager);
         this.addManager(PoolsManager);
 
-        console.log("ManagerCenter");
-        console.log(typeof cc.Component);
-        console.log(cc.Component);
     }
 
     start(){
