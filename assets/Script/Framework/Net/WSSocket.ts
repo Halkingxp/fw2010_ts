@@ -40,6 +40,15 @@ export default class WSSocket{
 
     }
 
+    closeConnect(){
+        this.stopHeartBeat();
+        if(this.mWs){
+            this.mWs.close();
+            this.mIsConnect = false;
+        }
+        this.mWs = null;
+    }
+
     addHandler(id:ProtoConst,callback:ProtoCallback){
         if(this.mHandler.has(id)){
             this.mHandler.get(id).push(callback);
@@ -110,10 +119,7 @@ export default class WSSocket{
         this.clearHandler(ProtoConst.heartBeat);
         this.addHandler(ProtoConst.heartBeat,this.pong);
 
-        if(this.mTimerSendHeartbeat){
-            clearInterval(this.mTimerSendHeartbeat);
-            this.mTimerSendHeartbeat = null;
-        }
+        this.stopHeartBeat();
 
         this.mTimerSendHeartbeat = setInterval(()=>{
             if(this.mIsConnect){
@@ -133,6 +139,17 @@ export default class WSSocket{
             }
         },5000);
 
+    }
+
+    stopHeartBeat(){
+        if(this.mTimerSendHeartbeat){
+            clearInterval(this.mTimerSendHeartbeat);
+            this.mTimerSendHeartbeat = null;
+        }
+        if(this.mTimerCheckNet){
+            clearInterval(this.mTimerCheckNet);
+            this.mTimerCheckNet = null;
+        }
     }
 
     pong(){

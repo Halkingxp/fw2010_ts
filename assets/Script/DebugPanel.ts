@@ -23,14 +23,15 @@ export default class DebugPanel extends BaseUIPanel {
 
     @property(cc.RichText)
     mRichText = null;
+    ws : WSSocket;
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-        let ws = new WSSocket("ws://123.207.167.163:9010/ajaxchattest");
-        ws.testCall = this.onmessage.bind(this);
-        ws.startConnect();
+        this.ws = new WSSocket("ws://123.207.167.163:9010/ajaxchattest");
+        this.ws.testCall = this.onmessage.bind(this);
+        this.ws.startConnect();
         
     }
 
@@ -43,6 +44,7 @@ export default class DebugPanel extends BaseUIPanel {
     }
 
     closebtn(){
+        this.ws.closeConnect();
         this.node.destroy();
     }
 
