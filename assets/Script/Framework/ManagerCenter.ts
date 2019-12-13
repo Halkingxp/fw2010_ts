@@ -23,7 +23,7 @@ export default class ManagerCenter extends cc.Component{
     start(){
         
     }
-
+    
     addManager<T extends Com>(m:T){
         let com = this.node.getComponent(m);
         if(!com){

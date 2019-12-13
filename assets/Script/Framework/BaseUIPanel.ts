@@ -59,11 +59,7 @@ export class BaseUIPanel extends cc.Component{
     onLoad(){
         console.log("BaseUIPanel onload");
         cc.log(this.mDelayDestroy);
-        if(this.mDelayDestroy > 0){
-            this.scheduleOnce(()=>{
-                this.node.destroy();
-            },this.mDelayDestroy);
-        }
+
     }
 
     onData(data):void{

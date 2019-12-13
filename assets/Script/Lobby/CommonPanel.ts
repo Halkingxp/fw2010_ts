@@ -8,6 +8,7 @@ import {PanelPathConfig,BaseUIPanel} from "../Framework/BaseUIPanel";
 export default class CommonPanel extends BaseUIPanel{
     mDelayDestroy = 2;
     onLoad(){
+        super.onLoad();
         console.log("CommonPanel onload");
         
 

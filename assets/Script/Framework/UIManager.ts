@@ -21,10 +21,10 @@ interface PanelInstance {
 
 type BaseUIPanelType = typeof BaseUIPanel;
 
-@ccclass
+// @ccclass
 export default class UIManager extends cc.Component{
     
-    static ins:UIManager;
+    static ins:UIManager = null;
     /** panel-实例的map结构存储;包括prefab,node,cmd */
     private mPanelMap: Map<string, PanelInstance> = new Map()
 
@@ -64,7 +64,10 @@ export default class UIManager extends cc.Component{
     }
 
     clearCatch(){
-
+        this.mPanelMap.forEach((value,key)=>{
+            value.node.destroy();
+        });
+        this.mPanelMap.clear();
     }
 
     async openPanel<T extends BaseUIPanelType>(panel:T,param:any = {}){
@@ -76,6 +79,7 @@ export default class UIManager extends cc.Component{
         if(va && va.state === "open") {
             switch(panel.CONFIG.type){
                 case "multi":
+                    //此处有bug
                     break;
                 case "cover":
                     if(va.node){
@@ -132,7 +136,11 @@ export default class UIManager extends cc.Component{
                 await this.inScale(va.node);
         }
         
-
+        if(com.mDelayDestroy > 0){
+            this.scheduleOnce(()=>{
+                this.closePanel(panel);
+            },com.mDelayDestroy);
+        }
     }
 
     /**

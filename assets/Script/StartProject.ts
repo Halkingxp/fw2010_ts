@@ -21,7 +21,7 @@ export default class StartProject extends cc.Component {
     @property(cc.Label)
     label: cc.Label = null;
 
-    @property
+    @property(cc.String)
     text: string = 'hello';
 
     // LIFE-CYCLE CALLBACKS:
