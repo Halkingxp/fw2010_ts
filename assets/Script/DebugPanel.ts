@@ -15,6 +15,7 @@ import Test from "./Framework/ProtoBuffer/Test";
 import WSSocket from "./Framework/Net/WSSocket";
 import UIManager from "./Framework/UImanager";
 
+// import axios from './Framework/Net/axios.min.js';
 
 @ccclass
 @PanelPathConfig("DebugPanel")
@@ -32,7 +33,12 @@ export default class DebugPanel extends BaseUIPanel {
         this.ws = new WSSocket("ws://123.207.167.163:9010/ajaxchattest");
         this.ws.testCall = this.onmessage.bind(this);
         this.ws.startConnect();
-        
+        // axios.get("https://jsonplaceholder.typicode.com/todos/1").then((response,)=>{
+        //     console.log(response);
+        //     this.mRichText.string =  this.mRichText.string + JSON.stringify(response.data) ;
+        // }).catch((err)=>{
+        //     console.log(err);
+        // });
     }
 
     onBtn1Clicked(){

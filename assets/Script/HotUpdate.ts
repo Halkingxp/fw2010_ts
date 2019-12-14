@@ -434,6 +434,7 @@ export default class HotUpdate extends cc.Component {
     onLoad () {
         // Hot update is only available in Native build
         if (!cc.sys.isNative) {
+            cc.log("跳过热更新...");
             return;
         }
         this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'blackjack-remote-asset');

@@ -8,6 +8,8 @@ import Test from "./Framework/ProtoBuffer/Test";
 import { ProtoConst } from "./Framework/ProtoBuffer/ProtoConst";
 import WSSocket from "./Framework/Net/WSSocket";
 
+// import axios from 'axios';
+
 export default class Debug extends cc.Component{
     onLoad(){
 
@@ -47,6 +49,13 @@ export default class Debug extends cc.Component{
                 console.log(ProtoConst.enterGameWorld.toString());
                 let ws = new WSSocket("ws://121.40.165.18:8800");
                 ws.startConnect();
+                break;
+            case cc.macro.KEY.f:
+                // axios.get("https://jsonplaceholder.typicode.com/todos/1").then((response,)=>{
+                //     console.log(response);
+                // }).catch((err)=>{
+                //     console.log(err);
+                // });
                 break;
         }
     }
