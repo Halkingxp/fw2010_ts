@@ -14,6 +14,7 @@ import {MsgEvents,MsgDispatcher} from "./Framework/MsgDispatcher"
 import ManagerCenter from "./Framework/ManagerCenter"
 
 import Debug from "./Debug"
+import AudioManager from "./Framework/AudioManager";
 
 @ccclass
 export default class StartProject extends cc.Component {
@@ -59,6 +60,7 @@ export default class StartProject extends cc.Component {
             console.log("333");
             console.log(param);
         }
+        AudioManager.ins.playBGM('sound/common/bg2');
 
     }
 
