@@ -15,6 +15,8 @@ import ManagerCenter from "./Framework/ManagerCenter"
 
 import Debug from "./Debug"
 import AudioManager from "./Framework/AudioManager";
+import UIManager from "./Framework/UImanager";
+import HotUpdatePanel from './HotUpdatePanel'
 
 @ccclass
 export default class StartProject extends cc.Component {
@@ -33,10 +35,7 @@ export default class StartProject extends cc.Component {
         this.node.addComponent(ManagerCenter);
         this.node.addComponent(Debug);
         
-        if(cc.sys.isNative){
-            //加载热更新界面
-
-        }
+        
     }
 
     start () {
@@ -62,6 +61,10 @@ export default class StartProject extends cc.Component {
         }
         AudioManager.ins.playBGM('sound/common/bg2');
 
+        if(cc.sys.isNative){
+            //加载热更新界面
+            UIManager.ins.openPanel(HotUpdatePanel);
+        }
     }
 
     // update (dt) {}
