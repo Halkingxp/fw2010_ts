@@ -65,7 +65,7 @@ export default class UIManager extends cc.Component{
 
     clearCatch(){
         this.mPanelMap.forEach((value,key)=>{
-            value.node.destroy();
+            value.node!.destroy();
         });
         this.mPanelMap.clear();
     }
@@ -203,7 +203,7 @@ export default class UIManager extends cc.Component{
             node.scale = 0;
             // node.active = true
             node.runAction(cc.sequence(cc.scaleTo(0.2, 1).easing(cc.easeBackOut()),cc.callFunc(()=>{
-                let size =node.getContentSize();
+                let size =cc.director.getWinSize();
                 node.addComponent(cc.Sprite).spriteFrame = this.mSingleColor;
                 node.setContentSize(size);
                 // node.color = cc.color(40,40,40,50);

@@ -35,7 +35,6 @@ export default class StartProject extends cc.Component {
         this.node.addComponent(ManagerCenter);
         this.node.addComponent(Debug);
         
-        
     }
 
     start () {
@@ -61,9 +60,12 @@ export default class StartProject extends cc.Component {
         }
         AudioManager.ins.playBGM('sound/common/bg2');
 
-        if(cc.sys.isNative){
+        if(!CC_EDITOR && cc.sys.isNative){
             //加载热更新界面
             UIManager.ins.openPanel(HotUpdatePanel);
+        }
+        else{
+            cc.director.loadScene('lobby');
         }
     }
 

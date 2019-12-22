@@ -4,4 +4,5 @@
   "description": "用于热更新插件",
   "author": "Cocos Creator",
   "main": "main.js"
+
 }

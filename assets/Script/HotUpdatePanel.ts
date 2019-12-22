@@ -276,6 +276,7 @@ export default class HotUpdatePanel extends BaseUIPanel {
                 break;
             case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
                 this.mTipLabel.string = "Already up to date with the latest remote version.";
+                cc.director.loadScene('lobby');
                 break;
             case jsb.EventAssetsManager.NEW_VERSION_FOUND:
                 let newVersion =  this._am.getRemoteManifest().getVersion();
