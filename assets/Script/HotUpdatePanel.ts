@@ -475,8 +475,16 @@ export default class HotUpdatePanel extends BaseUIPanel {
             }
         };
 
+        var url = '';
+        if(this.manifestUrl){
+            url = this.manifestUrl.nativeUrl;
+            if (cc.loader.md5Pipe) {
+                url = cc.loader.md5Pipe.transformURL(url);
+            }
+        }
+        
         // Init with empty manifest url for testing custom manifest
-        this._am = new jsb.AssetsManager('', this._storagePath, this.versionCompareHandle);
+        this._am = new jsb.AssetsManager(url, this._storagePath, this.versionCompareHandle);
 
         // var panel = this.panel;
         // Setup the verification callback, but we don't have md5 check function yet, so only print some message
@@ -511,6 +519,8 @@ export default class HotUpdatePanel extends BaseUIPanel {
         
         this.mTipProgressBar.progress = 0;
         // this.panel.byteProgress.progress = 0;
+
+        
         
     }
 
