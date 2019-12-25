@@ -7,7 +7,9 @@ fw2010_ts
 
 ![avatar](/mdimgs/1.png)
     或者
+
     #pragma mark - 获取启动图
+    
     +(UIImage *)getLaunchImage{
         CGSize viewSize = [UIScreen mainScreen].bounds.size;
         NSString *launchImage = nil;
