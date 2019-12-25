@@ -520,7 +520,10 @@ export default class HotUpdatePanel extends BaseUIPanel {
         this.mTipProgressBar.progress = 0;
         // this.panel.byteProgress.progress = 0;
 
-        
+        // this._am.getLocalManifest().saveToFile(this._storagePath + "localaaa.manifest");
+        let localManifest = this._am.getLocalManifest();
+        cc.log("aaaaaa");
+        cc.log(localManifest);
         
     }
 
