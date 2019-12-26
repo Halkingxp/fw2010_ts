@@ -2,7 +2,7 @@
     "packageUrl": "http://192.168.0.103/tutorial-hot-update/remote-assets/",
     "remoteManifestUrl": "http://192.168.0.103/tutorial-hot-update/remote-assets/project.manifest",
     "remoteVersionUrl": "http://192.168.0.103/tutorial-hot-update/remote-assets/version.manifest",
-    "version": "1.11",
+    "version": "1.13",
     "assets": {
         "src/assets/Script/Common/NewScript.jsc": {
             "size": 44,
@@ -17,24 +17,44 @@
             "md5": "906bc7ed79fef3dabffd718814030539"
         },
         "src/project.jsc": {
-            "size": 30724,
-            "md5": "2fca79c5dea41480546a97eaea158ab2"
+            "size": 24844,
+            "md5": "22804632819f4c5b8e06dd7affb8878c"
         },
         "src/settings.jsc": {
-            "size": 1556,
-            "md5": "b18cfbfcc13e9de407ef3cf3608d5d53"
+            "size": 1852,
+            "md5": "fb90bf0203173d12f28250558393efe2"
         },
         "res/import/02/024c4dbd0.json": {
             "size": 9095,
             "md5": "5a0a9b5d3c715a01d0370db6b3d9342a"
         },
+        "res/import/03/039ba8585.json": {
+            "size": 6909,
+            "md5": "83a40df25a7829d2d9a20d2c3d43053e"
+        },
+        "res/import/04/04acbe992.json": {
+            "size": 9607,
+            "md5": "6aff365999dc94aa8f38d1fcaa0ab2f2"
+        },
         "res/import/05/05dd1dc0e.json": {
             "size": 2483,
             "md5": "20a50ef39caf2be2bfc63c8aba05d437"
         },
-        "res/import/07/07f57bc6d.json": {
-            "size": 422,
-            "md5": "1ef21069036fbcd4353400b4fbe90ab9"
+        "res/import/06/060070317.json": {
+            "size": 512,
+            "md5": "1334a1bde41a56400c60f4a2efd95324"
+        },
+        "res/import/06/06565967e.json": {
+            "size": 1030,
+            "md5": "2a8a29115eb1696b2a3bf1c5de4d543c"
+        },
+        "res/import/08/08f9a7eb3.json": {
+            "size": 12163,
+            "md5": "f2ef682bf8dcd0c69d5a4484cec439f5"
+        },
+        "res/import/0a/0acd62539.json": {
+            "size": 8063,
+            "md5": "09dfc1ce019ada664e9fe2814e7d8317"
         },
         "res/import/0b/0b9f9f60-572f-42d5-9b16-050ae93c6b72.json": {
             "size": 73,
@@ -43,10 +63,6 @@
         "res/import/0e/0e93aeaa-0b53-4e40-b8e0-6268b4e07bd7.json": {
             "size": 4493,
             "md5": "7ab4e930219c634e8770e5df46bf3929"
-        },
-        "res/import/0f/0f0261a50.json": {
-            "size": 19439,
-            "md5": "a63b8919b51f5d1ab0f01ba1b2f294e1"
         },
         "res/import/0f/0f905945f.json": {
             "size": 1861,
@@ -67,6 +83,10 @@
         "res/import/2a/2a296057-247c-4a1c-bbeb-0548b6c98650.json": {
             "size": 209,
             "md5": "1b5bca4928ae7711748d4df8a315720a"
+        },
+        "res/import/35/35a63a13-5c8e-47ac-836d-3928c03aa1de.json": {
+            "size": 58,
+            "md5": "6922f276b7e0bbd1d47e57e4a9bf035e"
         },
         "res/import/3a/3a7bb79f-32fd-422e-ada2-96f518fed422.json": {
             "size": 138,
@@ -120,9 +140,17 @@
             "size": 82,
             "md5": "cea68f0d7cba38440224f6f74531e2d8"
         },
+        "res/raw-assets/06/06cc87a9-101d-4889-9327-492fd90f8f8d.jpg": {
+            "size": 497035,
+            "md5": "ebec21927b8dcdbff44b6cab86b46306"
+        },
         "res/raw-assets/0b/0b9f9f60-572f-42d5-9b16-050ae93c6b72.mp3": {
             "size": 3130,
             "md5": "6856859da41b86ce514f63c37006c51c"
+        },
+        "res/raw-assets/35/35a63a13-5c8e-47ac-836d-3928c03aa1de.mp3": {
+            "size": 4327137,
+            "md5": "4f17680124fb839225db433552d9cfb8"
         },
         "res/raw-assets/40/4096ce93-1e63-461f-bd08-3aa1f4a1f27f.png": {
             "size": 5355,
@@ -145,8 +173,8 @@
             "md5": "c06a93f5f1a8a1c6edc4fd8b52e96cbf"
         },
         "res/raw-assets/80/803b496a-7b15-4fa8-a4e2-26cbbd990b35.manifest": {
-            "size": 5069,
-            "md5": "58ea2f064584a510de7a185d86a05083"
+            "size": 5298,
+            "md5": "5e6852ded9dcd560d4255484c2087977"
         },
         "res/raw-assets/91/914fcc42-3ccc-4546-a956-35de6dbd0de7.mp3": {
             "size": 723069,
@@ -183,6 +211,10 @@
         "res/raw-assets/d2/d2ff396b-d6cb-456a-a6da-54c70ccdebf0.png": {
             "size": 77,
             "md5": "ddd308d58da91d2c2fc417f5ce2144c8"
+        },
+        "res/raw-assets/d3/d3644f9e-784e-4857-890b-87ff9586ef92.png": {
+            "size": 17692,
+            "md5": "7098b4cc8342f7c680eb84fc0b212956"
         },
         "res/raw-assets/e8/e851e89b-faa2-4484-bea6-5c01dd9f06e2.png": {
             "size": 1082,
