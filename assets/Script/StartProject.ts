@@ -62,7 +62,7 @@ export default class StartProject extends cc.Component {
 
         if(!CC_EDITOR && cc.sys.isNative){
             //加载热更新界面
-            UIManager.ins.openPanel(HotUpdatePanel);
+            UIManager.ins.openPanel(HotUpdatePanel,"game_ddz");
         }
         else{
             cc.director.loadScene('lobby');

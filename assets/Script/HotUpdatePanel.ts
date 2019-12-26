@@ -1,4 +1,6 @@
 import { BaseUIPanel,PanelPathConfig } from "./Framework/BaseUIPanel";
+import Tools from "./Common/Tools";
+import { Http } from "./Framework/Net/Http";
 
 // Learn TypeScript:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/typescript.html
@@ -261,6 +263,98 @@ export default class HotUpdatePanel extends BaseUIPanel {
 
     start () {
         // this.checkUpdate();
+
+        // Hot update is only available in Native build
+        if (!cc.sys.isNative) {
+            cc.log("跳过热更新...");
+            return;
+        }
+        this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'blackjack-remote-asset');
+        cc.log('Storage path for remote asset : ' + this._storagePath);
+
+        // Setup your own version compare handler, versionA and B is versions in string
+        // if the return value greater than 0, versionA is greater than B,
+        // if the return value equals 0, versionA equals to B,
+        // if the return value smaller than 0, versionA is smaller than B.
+        let self = this;
+        this.versionCompareHandle = function (versionA, versionB) {
+            cc.log("JS Custom Version Compare: version A is " + versionA + ', version B is ' + versionB);
+            self.mVersionLabel.string = 'V' + versionA;
+            var vA = versionA.split('.');
+            var vB = versionB.split('.');
+            for (var i = 0; i < vA.length; ++i) {
+                var a = parseInt(vA[i]);
+                var b = parseInt(vB[i] || "0");
+                if (a === b) {
+                    continue;
+                }
+                else {
+                    return a - b;
+                }
+            }
+            if (vB.length > vA.length) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        };
+
+        var url = '';
+        if(this.mData){
+            url = this._storagePath + '/project.manifest';
+        }
+        else if(this.manifestUrl){
+            url = this.manifestUrl.nativeUrl;
+            if (cc.loader.md5Pipe) {
+                url = cc.loader.md5Pipe.transformURL(url);
+            }
+        }
+        cc.log("manifest url:",url);
+        // Init with empty manifest url for testing custom manifest
+        this._am = new jsb.AssetsManager(url, this._storagePath, this.versionCompareHandle);
+
+        // var panel = this.panel;
+        // Setup the verification callback, but we don't have md5 check function yet, so only print some message
+        // Return true if the verification passed, otherwise return false
+        this._am.setVerifyCallback(function (path, asset) {
+            // When asset is compressed, we don't need to check its md5, because zip file have been deleted.
+            var compressed = asset.compressed;
+            // Retrieve the correct md5 value.
+            var expectedMD5 = asset.md5;
+            // asset.path is relative path and path is absolute.
+            var relativePath = asset.path;
+            // The size of asset file, but this value could be absent.
+            var size = asset.size;
+            if (compressed) {
+                this.mTipLabel.string = "Verification passed : " + relativePath;
+                return true;
+            }
+            else {
+                this.mTipLabel.string = "Verification passed : " + relativePath + ' (' + expectedMD5 + ')';
+                return true;
+            }
+        }.bind(this));
+
+        this.mTipLabel.string = 'Hot update is ready, please check or directly update.';
+
+        if (cc.sys.os === cc.sys.OS_ANDROID) {
+            // Some Android device may slow down the download process when concurrent tasks is too much.
+            // The value may not be accurate, please do more test and find what's most suitable for your game.
+            this._am.setMaxConcurrentTask(2);
+            this.mTipLabel.string = "Max concurrent tasks count have been limited to 2";
+        }
+        
+        this.mTipProgressBar.progress = 0;
+        // this.panel.byteProgress.progress = 0;
+
+        // this._am.getLocalManifest().saveToFile(this._storagePath + "localaaa.manifest");
+        // let localManifest = this._am.getLocalManifest();
+        // cc.log("aaaaaa");
+        // cc.log(localManifest);
+
+        this.gererateRemoteManifest();
+
     }
 
     checkCb(event) {
@@ -431,6 +525,35 @@ export default class HotUpdatePanel extends BaseUIPanel {
         }
     }
     
+    /////////////////////////////////////////
+
+    async gererateRemoteManifest(){
+        cc.log('aaa',this.mData)
+        if(!this.mData){
+            return;
+        }
+        let localManifestStr = await Tools.load(this._storagePath + "/project.manifest");
+        let localManifestJson = JSON.parse(localManifestStr as string);
+        let remoteManifestJson;
+        cc.log(typeof localManifestJson);
+        if(localManifestJson && localManifestJson.packageUrl){
+            let remoteManifestUrl = localManifestJson.packageUrl + "project_"+ this.mData + '.manifest';
+            remoteManifestJson = await Http.getAsync("project_"+ this.mData + '.manifest',{v: (new Date()).getTime()},localManifestJson.packageUrl );
+            if(remoteManifestJson && remoteManifestJson.assets){
+                for(let key in remoteManifestJson.assets){                    
+                    localManifestJson.assets[key] = remoteManifestJson.assets[key];
+                }
+                localManifestJson.version = localManifestJson.version + ".5";
+            }
+        }
+
+        var manifest = new jsb.Manifest(JSON.stringify(localManifestJson), this._storagePath);
+        let ok = this._am.loadRemoteManifest(manifest);
+        this.mTipLabel.string = 'Using custom manifest ' + ok + localManifestJson.version;
+        
+
+    }
+
     // show () {
     //     if (this.updateUI.active === false) {
     //         this.updateUI.active = true;
@@ -439,91 +562,7 @@ export default class HotUpdatePanel extends BaseUIPanel {
 
     // use this for initialization
     onLoad () {
-        // Hot update is only available in Native build
-        if (!cc.sys.isNative) {
-            cc.log("跳过热更新...");
-            return;
-        }
-        this._storagePath = ((jsb.fileUtils ? jsb.fileUtils.getWritablePath() : '/') + 'blackjack-remote-asset');
-        cc.log('Storage path for remote asset : ' + this._storagePath);
-
-        // Setup your own version compare handler, versionA and B is versions in string
-        // if the return value greater than 0, versionA is greater than B,
-        // if the return value equals 0, versionA equals to B,
-        // if the return value smaller than 0, versionA is smaller than B.
-        let self = this;
-        this.versionCompareHandle = function (versionA, versionB) {
-            cc.log("JS Custom Version Compare: version A is " + versionA + ', version B is ' + versionB);
-            self.mVersionLabel.string = 'V' + versionA;
-            var vA = versionA.split('.');
-            var vB = versionB.split('.');
-            for (var i = 0; i < vA.length; ++i) {
-                var a = parseInt(vA[i]);
-                var b = parseInt(vB[i] || "0");
-                if (a === b) {
-                    continue;
-                }
-                else {
-                    return a - b;
-                }
-            }
-            if (vB.length > vA.length) {
-                return -1;
-            }
-            else {
-                return 0;
-            }
-        };
-
-        var url = '';
-        if(this.manifestUrl){
-            url = this.manifestUrl.nativeUrl;
-            if (cc.loader.md5Pipe) {
-                url = cc.loader.md5Pipe.transformURL(url);
-            }
-        }
         
-        // Init with empty manifest url for testing custom manifest
-        this._am = new jsb.AssetsManager(url, this._storagePath, this.versionCompareHandle);
-
-        // var panel = this.panel;
-        // Setup the verification callback, but we don't have md5 check function yet, so only print some message
-        // Return true if the verification passed, otherwise return false
-        this._am.setVerifyCallback(function (path, asset) {
-            // When asset is compressed, we don't need to check its md5, because zip file have been deleted.
-            var compressed = asset.compressed;
-            // Retrieve the correct md5 value.
-            var expectedMD5 = asset.md5;
-            // asset.path is relative path and path is absolute.
-            var relativePath = asset.path;
-            // The size of asset file, but this value could be absent.
-            var size = asset.size;
-            if (compressed) {
-                this.mTipLabel.string = "Verification passed : " + relativePath;
-                return true;
-            }
-            else {
-                this.mTipLabel.string = "Verification passed : " + relativePath + ' (' + expectedMD5 + ')';
-                return true;
-            }
-        }.bind(this));
-
-        this.mTipLabel.string = 'Hot update is ready, please check or directly update.';
-
-        if (cc.sys.os === cc.sys.OS_ANDROID) {
-            // Some Android device may slow down the download process when concurrent tasks is too much.
-            // The value may not be accurate, please do more test and find what's most suitable for your game.
-            this._am.setMaxConcurrentTask(2);
-            this.mTipLabel.string = "Max concurrent tasks count have been limited to 2";
-        }
-        
-        this.mTipProgressBar.progress = 0;
-        // this.panel.byteProgress.progress = 0;
-
-        // this._am.getLocalManifest().saveToFile(this._storagePath + "localaaa.manifest");
-        let localManifest = this._am.getLocalManifest();
-        cc.log("aaaaaa");
-        cc.log(localManifest);
         
     }
 

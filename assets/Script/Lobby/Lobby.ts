@@ -11,6 +11,7 @@
 import { BaseUIPanel } from "../Framework/BaseUIPanel";
 import UIManager from "../Framework/UImanager";
 import CommonPanel from "./CommonPanel";
+import HotUpdatePanel from "../HotUpdatePanel";
 
 const {ccclass, property} = cc._decorator;
 
@@ -48,7 +49,12 @@ export default class Lobby extends BaseUIPanel {
             });
         }
         
+    }
 
+    onBtnDownloadClicked(){
+        
+        UIManager.ins.openPanel(HotUpdatePanel,"game_ddz");
+        
     }
 
     // update (dt) {}

@@ -277,6 +277,22 @@ export default class Tools{
         })
     }
 
+
+        /**
+     * 载入单个资源
+     * @param path 
+     * @param type 
+     */
+    static load(path: string):any {
+        return new Promise(res => {
+            cc.loader.load({url:path}, (err, resource) => {
+                err && cc.warn(`load fail, path=${path}, err=${err}`)
+                err ? res(null) : res(resource)
+            })
+        })
+    }
+
+
     /**
      * 模运算,针对负数进行统一化
      * - [区别] n为正数时与%运算相同,n为负数:-1%10=-1;modulo_operation(-1,10)=9

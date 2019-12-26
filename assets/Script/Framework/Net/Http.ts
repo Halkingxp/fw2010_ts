@@ -212,6 +212,7 @@ export class Http{
                 //组装完整的URL
                 let requestURL = extraUrl + sendPath + encodeURI(sendText);
                 // xhr.responseType = "json"
+                cc.log("RequestURL:" + requestURL);
                 xhr.open("GET", requestURL, true)
                 xhr.setRequestHeader("Content-Type", "application/json")
                 xhr.onerror = () => { throw new Error("xhr-on-error") }
